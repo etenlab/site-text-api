@@ -19,7 +19,7 @@ create table users (
 -- make room for manually created service accounts
 alter sequence users_user_id_seq restart with 100; 
 
-create table avatars_current(
+create table avatars(
   user_id bigint not null references users(user_id),
   avatar varchar(64) unique not null,
   url varchar(128),
@@ -66,13 +66,12 @@ create table reset_tokens(
 
 create table websocket_sessions (
   websocket_session_id varchar(64) not null primary key,
-  token varchar(512) not null, -- one to many
   user_id bigint references users(user_id),
-  created_at timestamp not null default current_timestamp
+  created_at timestamp not null default current_timestamp,
+  token text not null -- one to many
 );
 
-create index on sessions (server_ip);
-create index on sessions (user_id);
+create index on websocket_sessions (user_id);
 
 create type email_sent_type as enum (
   'Register',
