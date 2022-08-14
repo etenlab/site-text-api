@@ -131,6 +131,7 @@ create table iso_639_2 (
   german_name varchar(128)
 );
 
+-- https://www.loc.gov/standards/iso639-5/id.php
 create table iso_639_5 (
   id bigserial primary key,
   identifier char(3) not null,
