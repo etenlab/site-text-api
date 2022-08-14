@@ -1,5 +1,7 @@
 -- schema v1
 
+-- AUTHENTICATION ---------------------------------------------------
+
 create table database_version_control (
   id serial primary key,
   version int not null,
@@ -109,3 +111,22 @@ create table notifications (
 );
 
 create index on notifications (user_id, is_notified);
+
+-- DATASETS ---------------------------------------------------------
+
+create type iso_639_2_entry_type as enum (
+  'B', -- Bibliograph
+  'T'  -- Terminology
+       -- NULL represents both
+);
+
+-- https://www.loc.gov/standards/iso639-2/php/code_list.php
+create table iso_639_2 (
+  id bigserial primary key,
+  iso_639_2 char(3),
+  entry_type iso_639_2_entry_type,
+  iso_639_1 char(2),
+  english_name varchar(128),
+  french_name varchar(128),
+  german_name varchar(128)
+);
