@@ -130,3 +130,13 @@ create table iso_639_2 (
   french_name varchar(128),
   german_name varchar(128)
 );
+
+create table iso_639_5 (
+  id bigserial primary key,
+  identifier char(3) not null,
+  english_name varchar(128),
+  french_name varchar(128),
+  iso_639_2 varchar(128),
+  hierarchy varchar(128),
+  notes varchar(128)
+);
