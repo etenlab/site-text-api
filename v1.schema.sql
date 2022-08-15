@@ -117,7 +117,7 @@ create index on notifications (user_id, is_notified);
 create type iso_639_2_entry_type as enum (
   'B', -- Bibliograph
   'T'  -- Terminology
-       -- NULL represents both
+       -- null represents both
 );
 
 -- https://www.loc.gov/standards/iso639-2/php/code_list.php
@@ -140,4 +140,73 @@ create table iso_639_5 (
   iso_639_2 varchar(128),
   hierarchy varchar(128),
   notes varchar(128)
+);
+
+-- SIL TABLES: http://www.iso639-3.sil.org/
+
+-- I(ndividual), M(acrolanguage), S(pecial)
+create type iso_639_3_scope_type as enum (
+ 'I',
+ 'M',
+ 'S'
+);
+
+-- A(ncient), C(onstructed), E(xtinct), H(istorical), L(iving), S(pecial)
+create type iso_639_3_entry_type as enum (
+ 'A',
+ 'C',
+ 'E',
+ 'H',
+ 'L',
+ 'S'
+);
+
+create table iso_639_3 (
+  id bigserial primary key,
+  iso_639_3 char(3) not null, -- The three-letter 639-3 identifier
+  part_2b char(3) null, -- Equivalent 639-2 identifier of the bibliographic applications code set, if there is one
+  part_2t char(3) null, -- Equivalent 639-2 identifier of the terminology applications code set, if there is one
+  part_1 char(2) null, -- Equivalent 639-1 identifier, if there is one    
+  scope iso_639_3_scope_type not null, -- I(ndividual), M(acrolanguage), S(pecial)
+  entry_type  iso_639_3_entry_type not null, -- A(ncient), C(onstructed), E(xtinct), H(istorical), L(iving), S(pecial)
+  ref_name varchar(150) not null, -- Reference language name 
+  comment varchar(150) null -- Comment relating to one or more of the columns
+);
+
+create table iso_639_3_names (
+  id bigserial primary key,
+  iso_639_3 char(3) not null, -- three letter 639-3 identifier
+  print_name varchar(75) not null, -- one of the names associated with this identifier
+  inverted_name varchar(75) not null -- the inverted form of this print_name form
+);
+
+-- Active, Retired
+create type iso_639_3_status_type as enum (
+  'A', 
+  'R' 
+);
+
+CREATE TABLE iso_639_3_macrolanguages (
+  id bigserial primary key,
+  m_id char(3) not null, -- the identifier for a macrolanguage
+  i_id char(3) not null, -- the identifier for an individual language that is a member of the macrolanguage
+  i_status iso_639_3_status_type not null -- indicating the status of the individual code element
+);
+
+create type iso_639_3_retirement_reason_options as enum (
+  'C', -- Change
+  'D', -- Duplicate
+  'N', -- Non-existent
+  'S', -- Split
+  'M' -- Merge
+);
+
+create table iso_639_3_retirements (
+  id bigserial primary key,
+  iso_639_3 char(3) not null, -- three letter 639-3 identifier
+  ref_name varchar(150) not null, -- reference name of the language
+  ret_reason iso_639_3_retirement_reason_options, -- code for retirement
+  change_to char(3), -- in the cases of C, D, and M, the identifier to which all instances of this id should be changed
+  ret_remedy varchar(300), -- the instructions for updating an instance of the retired (split) identifier
+  effective timestamp not null -- the date the retirement became effective
 );
