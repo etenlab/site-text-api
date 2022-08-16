@@ -1,3 +1,3 @@
-# 2B Database 1
+# 2B Database API
 
-Schema and changeset files for `eil_db_1`
+API, Schema, and changeset files for `eil_db_1`
