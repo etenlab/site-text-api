@@ -1,7 +1,4 @@
-awsAccessKeyId: ${AWS_ACCESS_KEY_ID}
-awsSecretAccessKey: ${AWS_SECRET_ACCESS_KEY}
 env: local
-s3_url_prefix: ${S3_URL_PREFIX}
 
 email:
   server: http://localhost:3333
@@ -9,7 +6,7 @@ email:
 server:
   port: 8094
   hostname: ${HOSTNAME}
-  jwtSecret: ${JWT_SECRET}
+  load-db-version: 1
 
 spring:
 
