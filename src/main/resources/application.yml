@@ -4,7 +4,7 @@ email:
   server: http://localhost:3333
 
 server:
-  port: 8094
+  port: 8103
   hostname: ${HOSTNAME}
   load-db-version: 1
 
