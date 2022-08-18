@@ -1,3 +1,3 @@
-# 2B Database API
+# Database API
 
 API, Schema, and changeset files for `eil_db_1`
