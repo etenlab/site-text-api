@@ -16,16 +16,6 @@ class AppConfig(
     val kafka_bootstrap_address: String,
     @Value("\${server.load-db-version}")
     val load_db_version: Int = 1,
-    @Value("\${spring.writer-datasource.jdbcUrl}")
-    val db_writer_url: String,
-    @Value("\${spring.writer-datasource.password}")
-    val db_writer_password: String,
 ) {
   val ip = InetAddress.getLocalHost().hostAddress
-
-  init {
-    println("db_writer_url:$db_writer_url")
-    println("db_writer_password:$db_writer_password")
-  }
-
 }
