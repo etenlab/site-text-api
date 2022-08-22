@@ -25,7 +25,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.9")
 	implementation("org.springdoc:springdoc-openapi-javadoc:1.6.9")
-	implementation("org.springframework.kafka:spring-kafka:2.9.0")
+//	implementation("org.springframework.kafka:spring-kafka:2.9.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
