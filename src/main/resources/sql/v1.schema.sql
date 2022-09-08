@@ -232,7 +232,7 @@ create table progress_bible_language_details(
   unit_code varchar(5)  not null,
   unit_type progress_bible_language_details_unit_type not null,
   unit_name varchar(200) not null,
-  Unit_full_name varchar(200) not null,
+  unit_full_name varchar(200) not null,
   ethnologue_name varchar(200),
   iso_639_3_code varchar(5),
   is_sign_language bool,
