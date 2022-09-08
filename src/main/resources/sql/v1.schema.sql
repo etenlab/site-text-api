@@ -210,3 +210,44 @@ create table iso_639_3_retirements (
   ret_remedy varchar(300), -- the instructions for updating an instance of the retired (split) identifier
   effective timestamp not null -- the date the retirement became effective
 );
+
+create type progress_bible_language_details_unit_type as enum (
+  'L', 
+  'S',
+  'D' 
+);
+
+create type progress_bible_language_details_code_status as enum (
+  'Active', 
+  'Retired'
+);
+
+create type progress_bible_language_details_language_status as enum (
+  'Living', 
+  'Extinct'
+);
+
+create table progress_bible_language_details(
+  id bigserial primary key,
+  unit_code varchar(5)  not null,
+  unit_type progress_bible_language_details_unit_type not null,
+  unit_name varchar(200) not null,
+  Unit_full_name varchar(200) not null,
+  ethnologue_name varchar(200),
+  iso_639_3_code varchar(5),
+  is_sign_language bool,
+  code_status progress_bible_language_details_code_status not null,
+  language_status progress_bible_language_details_language_status not null,
+  language_scope varchar(20),
+  primary_continent varchar(200),
+  primary_country_name varchar(200),
+  primary_country_code char(2),
+  retirement_explanation varchar(500),
+  how_to_fix varchar(500),
+  retired_date timestamp,
+  show_active_language bool,
+  show_retired_language bool,
+  show_active_dialect bool,
+  show_retired_dialect bool,
+  show_sign_language bool
+);
