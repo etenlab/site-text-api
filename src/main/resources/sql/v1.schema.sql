@@ -1,13 +1,19 @@
 -- schema v1
 
--- AUTHENTICATION ---------------------------------------------------
-
+-- GENERAL ---------------------------------------------------
 create table database_version_control (
   id serial primary key,
   version int not null,
   started timestamp default current_timestamp,
   finished timestamp
 );
+
+create type table_names_enum as enum (
+  -- need to add all table names
+  'site_text_translations'
+);
+
+-- AUTHENTICATION ---------------------------------------------------
 
 create table users (
   user_id bigserial primary key,
@@ -111,6 +117,86 @@ create table notifications (
 );
 
 create index on notifications (user_id, is_notified);
+
+-- language skill ---------------------------------------------------
+create type language_tables_enum as enum(
+  'iso_639_3',
+  'uf-languages'
+);
+
+create type language_skill_enum as enum (
+  '1',
+  '2',
+  '3',
+  '4',
+  '5'
+);
+
+create table language_skills (
+  id bigserial primary key,
+  user_id varchar(512) not null, -- prolly will change, not sure how we will reference users yet
+  language_table language_tables_enum not null,
+  language_id bigint not null,
+  skill_level language_skill_enum not null,
+  unique (user_id, language_table, language_id)
+);
+
+-- site text ---------------------------------------------------
+create table app_list (
+  id bigserial primary key,
+  app_name varchar(128)
+);
+
+create table site_text_keys (
+  id bigserial primary key,
+  app bigint not null references app_list(id),
+  language_table language_tables_enum not null,
+  language_id bigint not null,
+  site_text_key varchar(512) not null
+);
+
+-- site text translation ---------------------------------------------------
+create table site_text_translations(
+  id bigserial primary key,
+  user_id varchar(512) not null, -- prolly will change, not sure how we will reference users yet
+  site_text bigint not null references site_text_keys(id),
+  language_table language_tables_enum not null,
+  language_id bigint not null,
+  site_text_translation varchar(512) not null
+);
+
+-- voting ---------------------------------------------------
+create table votes (
+  id bigserial primary key,
+  table_name table_names_enum not null,
+  row bigint not null,
+  up bool not null -- true = up vote, false = down vote, delete record to remove vote from user
+);
+
+-- discussion ---------------------------------------------------
+create table discussions (
+  id bigserial primary key,
+  table_name table_names_enum not null,
+  row bigint not null
+);
+
+create table posts (
+  id bigserial primary key,
+  discussion bigint references discussions(id),
+  user_id varchar(512) not null, -- prolly will change, not sure how we will reference users yet
+  quill_text text,
+  plain_text text,
+  postgres_language regconfig not null default 'simple',
+  search_text tsvector generated always as (
+  		to_tsvector(
+   			postgres_language,
+  			plain_text
+  		)
+  ) stored,
+  created_at timestamp default current_timestamp
+);
+
+create index posts_search_gin on posts using gin (search_text);
 
 -- DATASETS ---------------------------------------------------------
 
