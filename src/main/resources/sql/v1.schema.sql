@@ -152,7 +152,8 @@ create table site_text_keys (
   app bigint not null references app_list(id),
   language_table language_tables_enum not null,
   language_id bigint not null,
-  site_text_key varchar(512) not null
+  site_text_key varchar(512) not null,
+  description varchar(512)
 );
 
 -- site text translation ---------------------------------------------------
