@@ -251,3 +251,125 @@ create table progress_bible_language_details(
   show_retired_dialect bool,
   show_sign_language bool
 );
+
+create table sil_country_codes(
+    id bigserial primary key,
+    code char(2) not null,
+    name varchar(200) not null,
+    area varchar(200) not null
+);
+
+create type sil_language_codes_status as enum (
+ 'L',
+ 'X'
+);
+
+create table sil_language_codes(
+    id bigserial primary key,
+    code char(3) not null,
+    country_code char(2) not null,
+    status sil_language_codes_status not null,
+    name varchar(200) not null
+);
+
+create table sil_language_index(
+    id bigserial primary key,
+    language_code char(3) not null,
+    country_code char(2) not null,
+    name_type char(2) not null,
+    name varchar(200) not null
+);
+
+create table uf_additional_languages(
+    id bigserial primary key,
+    ietf_tag varchar(200),
+    two_letter char(2),
+    three_letter char(3),
+    common_name varchar(200),
+    native_name varchar(200),
+    direction char(3),
+    comment varchar(500)
+);
+
+create table uf_countries_list(
+    id bigserial primary key,
+    code char(2),
+    alpha_3_code char(3),
+    name varchar(200),
+    region varchar(200),
+    wa_region varchar(200),
+    population int
+);
+
+create table uf_langnames(
+    id bigserial primary key,
+    code varchar(100),
+    name varchar(200)
+);
+
+create table uf_languages_with_bible_portions(
+    id bigserial primary key,
+    language varchar(200),
+    media varchar(25),
+    published bool default false,
+    info varchar(500)
+);
+
+create table uf_languages_with_gospel_recording(
+    id bigserial primary key,
+    language varchar(200),
+    media varchar(25),
+    published bool default false,
+    info varchar(500)
+);
+
+create table uf_languages_with_jesus_film(
+     id bigserial primary key,
+     language varchar(200),
+     media varchar(25),
+     published bool default false,
+     info varchar(500)
+ );
+
+create table uf_languages_with_one_story_bible_stories(
+    id bigserial primary key,
+    language varchar(200),
+    media varchar(25),
+    published bool default false,
+    info varchar(500)
+);
+
+create table uf_languages_with_open_bible_stories(
+    id bigserial primary key,
+    language varchar(200),
+    media varchar(25),
+    published bool default false,
+    info text
+);
+
+create table uf_languages_with_radio_broadcast(
+    id bigserial primary key,
+    language varchar(200),
+    media varchar(25),
+    published bool default false,
+    info text
+);
+
+create table uf_languages(
+    id bigserial primary key,
+    code varchar(50) not null,
+    iso_639_3 char(3),
+    name varchar(200) not null,
+    alternate_name text,
+    anglicized_name varchar(200),
+    country varchar(200),
+    gateway_language varchar(200),
+    gw varchar(200)
+);
+
+create table uf_networks(
+    id bigserial primary key,
+    network varchar(200),
+    countries text,
+    languages text
+);
