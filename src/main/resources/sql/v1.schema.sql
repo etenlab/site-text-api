@@ -737,3 +737,29 @@ create table people_groups_data_only(
     strategic_priority_index varchar(200),
     population_layer varchar(50)
 );
+
+create table rod_dialects(
+    id bigserial primary key,
+    dialect_code varchar(10),
+    language_code char(3),
+    country_code char(2),
+    dialect_name varchar(200),
+    language_name varchar(200),
+    location_name varchar(200)
+);
+
+create table rod_changelist(
+    id bigserial primary key,
+    dialect_code varchar(10),
+    date timestamp,
+    change_type char(3),
+    prev_language_code char(3),
+    new_language_code char(3),
+    explanation text
+);
+
+create table rod_alternatenameindex(
+    id bigserial primary key,
+    dialect_code varchar(10),
+    variant_name varchar(500)
+);
