@@ -763,3 +763,25 @@ create table rod_alternatenameindex(
     dialect_code varchar(10),
     variant_name varchar(500)
 );
+
+create table glottolog_language(
+    id bigserial primary key,
+    glottocode varchar(20),
+    name varchar(200),
+    top_level_family varchar(200),
+    iso_639_3 char(3),
+    macro_area varchar(200),
+    child_dialects int,
+    latitude varchar(50),
+    longitude varchar(50)
+);
+
+create table glottolog_family(
+    id bigserial primary key,
+    name varchar(200),
+    level varchar(200),
+    macro_area varchar(550),
+    sub_families int,
+    child_languages int,
+    top_level_family int
+);
