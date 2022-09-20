@@ -210,9 +210,9 @@ create type iso_639_2_entry_type as enum (
 -- https://www.loc.gov/standards/iso639-2/php/code_list.php
 create table iso_639_2 (
   id bigserial primary key,
-  iso_639_2 char(3),
+  iso_639_2 varchar(3),
   entry_type iso_639_2_entry_type,
-  iso_639_1 char(2),
+  iso_639_1 varchar(2),
   english_name varchar(128),
   french_name varchar(128),
   german_name varchar(128)
@@ -221,7 +221,7 @@ create table iso_639_2 (
 -- https://www.loc.gov/standards/iso639-5/id.php
 create table iso_639_5 (
   id bigserial primary key,
-  identifier char(3) not null,
+  identifier varchar(3) not null,
   english_name varchar(128),
   french_name varchar(128),
   iso_639_2 varchar(128),
@@ -250,10 +250,10 @@ create type iso_639_3_entry_type as enum (
 
 create table iso_639_3 (
   id bigserial primary key,
-  iso_639_3 char(3) not null, -- The three-letter 639-3 identifier
-  part_2b char(3) null, -- Equivalent 639-2 identifier of the bibliographic applications code set, if there is one
-  part_2t char(3) null, -- Equivalent 639-2 identifier of the terminology applications code set, if there is one
-  part_1 char(2) null, -- Equivalent 639-1 identifier, if there is one    
+  iso_639_3 varchar(3) not null, -- The three-letter 639-3 identifier
+  part_2b varchar(3) null, -- Equivalent 639-2 identifier of the bibliographic applications code set, if there is one
+  part_2t varchar(3) null, -- Equivalent 639-2 identifier of the terminology applications code set, if there is one
+  part_1 varchar(2) null, -- Equivalent 639-1 identifier, if there is one
   scope iso_639_3_scope_type not null, -- I(ndividual), M(acrolanguage), S(pecial)
   entry_type  iso_639_3_entry_type not null, -- A(ncient), C(onstructed), E(xtinct), H(istorical), L(iving), S(pecial)
   ref_name varchar(150) not null, -- Reference language name 
@@ -262,7 +262,7 @@ create table iso_639_3 (
 
 create table iso_639_3_names (
   id bigserial primary key,
-  iso_639_3 char(3) not null, -- three letter 639-3 identifier
+  iso_639_3 varchar(3) not null, -- three letter 639-3 identifier
   print_name varchar(75) not null, -- one of the names associated with this identifier
   inverted_name varchar(75) not null -- the inverted form of this print_name form
 );
@@ -275,8 +275,8 @@ create type iso_639_3_status_type as enum (
 
 CREATE TABLE iso_639_3_macrolanguages (
   id bigserial primary key,
-  m_id char(3) not null, -- the identifier for a macrolanguage
-  i_id char(3) not null, -- the identifier for an individual language that is a member of the macrolanguage
+  m_id varchar(3) not null, -- the identifier for a macrolanguage
+  i_id varchar(3) not null, -- the identifier for an individual language that is a member of the macrolanguage
   i_status iso_639_3_status_type not null -- indicating the status of the individual code element
 );
 
@@ -290,10 +290,10 @@ create type iso_639_3_retirement_reason_options as enum (
 
 create table iso_639_3_retirements (
   id bigserial primary key,
-  iso_639_3 char(3) not null, -- three letter 639-3 identifier
+  iso_639_3 varchar(3) not null, -- three letter 639-3 identifier
   ref_name varchar(150) not null, -- reference name of the language
   ret_reason iso_639_3_retirement_reason_options, -- code for retirement
-  change_to char(3), -- in the cases of C, D, and M, the identifier to which all instances of this id should be changed
+  change_to varchar(3), -- in the cases of C, D, and M, the identifier to which all instances of this id should be changed
   ret_remedy varchar(300), -- the instructions for updating an instance of the retired (split) identifier
   effective timestamp not null -- the date the retirement became effective
 );
@@ -328,7 +328,7 @@ create table progress_bible_language_details(
   language_scope varchar(20),
   primary_continent varchar(200),
   primary_country_name varchar(200),
-  primary_country_code char(2),
+  primary_country_code varchar(2),
   retirement_explanation varchar(500),
   how_to_fix varchar(500),
   retired_date timestamp,
@@ -341,7 +341,7 @@ create table progress_bible_language_details(
 
 create table sil_country_codes(
     id bigserial primary key,
-    code char(2) not null,
+    code varchar(2) not null,
     name varchar(200) not null,
     area varchar(200) not null
 );
@@ -353,35 +353,35 @@ create type sil_language_codes_status as enum (
 
 create table sil_language_codes(
     id bigserial primary key,
-    code char(3) not null,
-    country_code char(2) not null,
+    code varchar(3) not null,
+    country_code varchar(2) not null,
     status sil_language_codes_status not null,
     name varchar(200) not null
 );
 
 create table sil_language_index(
     id bigserial primary key,
-    language_code char(3) not null,
-    country_code char(2) not null,
-    name_type char(2) not null,
+    language_code varchar(3) not null,
+    country_code varchar(2) not null,
+    name_type varchar(2) not null,
     name varchar(200) not null
 );
 
 create table uf_additional_languages(
     id bigserial primary key,
     ietf_tag varchar(200),
-    two_letter char(2),
-    three_letter char(3),
+    two_letter varchar(2),
+    three_letter varchar(3),
     common_name varchar(200),
     native_name varchar(200),
-    direction char(3),
+    direction varchar(3),
     comment varchar(500)
 );
 
 create table uf_countries_list(
     id bigserial primary key,
-    code char(2),
-    alpha_3_code char(3),
+    code varchar(2),
+    alpha_3_code varchar(3),
     name varchar(200),
     region varchar(200),
     wa_region varchar(200),
@@ -445,7 +445,7 @@ create table uf_languages_with_radio_broadcast(
 create table uf_languages(
     id bigserial primary key,
     code varchar(50) not null,
-    iso_639_3 char(3),
+    iso_639_3 varchar(3),
     name varchar(200) not null,
     alternate_name text,
     anglicized_name varchar(200),
@@ -475,7 +475,7 @@ create table gsec_listing_of_people_groups(
     evangelical_engagement bool,
     population bigint, -- confirm
     dispersed bool,
-    rol char(3),
+    rol varchar(3),
     language varchar(200),
     religion varchar(200),
     nomadic bool,
@@ -494,13 +494,13 @@ create table gsec_listing_of_people_groups(
     government_restrictions_index text, -- can be enum some rows have detailed text
     social_hostilities_index varchar(25), -- can be enum
     threat_level varchar(250),
-    rop1 char(5),
+    rop1 varchar(5),
     rop2 varchar(10),
     rop3 int,
     people_name varchar(200),
-    genc char(3),
-    fips char(2),
-    fips_of_origin char(2),
+    genc varchar(3),
+    fips varchar(2),
+    fips_of_origin varchar(2),
     latitude varchar(50),
     longitude varchar(50),
     imb_affinity_group varchar(200),
@@ -525,7 +525,7 @@ create table gsec_listing_of_unengaged_unreached_people_groups(
     evangelical_engagement bool,
     population bigint,
     dispersed bool,
-    rol char(3),
+    rol varchar(3),
     language varchar(200),
     religion varchar(200),
     nomadic bool,
@@ -544,13 +544,13 @@ create table gsec_listing_of_unengaged_unreached_people_groups(
     government_restrictions_index text,
     social_hostilities_index varchar(25),
     threat_level varchar(250),
-    rop1 char(5),
+    rop1 varchar(5),
     rop2 varchar(10),
     rop3 int,
     rop_people_name varchar(200),
-    genc char(3),
-    fips  char(2),
-    fips_of_origin char(2),
+    genc varchar(3),
+    fips  varchar(2),
+    fips_of_origin varchar(2),
     latitude varchar(50),
     longitude varchar(50),
     imb_affinity_group varchar(200),
@@ -575,7 +575,7 @@ create table gsec_listing_of_unreached_people_groups(
     evangelical_engagement bool,
     population bigint,
     dispersed bool,
-    rol char(3),
+    rol varchar(3),
     language varchar(200),
     religion varchar(200),
     nomadic bool,
@@ -594,17 +594,17 @@ create table gsec_listing_of_unreached_people_groups(
     government_restrictions_index text,
     social_hostilities_index varchar(25),
     threat_level varchar(250),
-    rop1 char(5),
+    rop1 varchar(5),
     rop2 varchar(10),
     rop3 int,
     rop_people_name varchar(200),
-    genc char(3),
-    fips char(2),
-    fips_of_origin char(2),
+    genc varchar(3),
+    fips varchar(2),
+    fips_of_origin varchar(2),
     latitude varchar(50),
     longitude varchar(50),
     imb_affinity_group varchar(200),
-    not_engaged_anywhere char(5),
+    not_engaged_anywhere varchar(5),
     spi int,
     strategic_priority_index varchar(200)
 );
@@ -650,7 +650,7 @@ create table gsec_listing_of_uupg_100k(
     country_of_origin varchar(200),
     people_group varchar(200),
     global_status_of_evangelical_christianity int,
-    rol char(3),
+    rol varchar(3),
     language varchar(200),
     religion varchar(200),
     nomadic bool,
@@ -671,13 +671,13 @@ create table gsec_listing_of_uupg_100k(
     government_restrictions_index text,
     social_hostilities_index varchar(25),
     threat_level varchar(250),
-    rop1 char(5),
+    rop1 varchar(5),
     rop2 varchar(10),
     rop3 int,
     people_name varchar(200),
-    genc char(3),
-    fips char(2),
-    fips_of_origin char(2),
+    genc varchar(3),
+    fips varchar(2),
+    fips_of_origin varchar(2),
     latitude varchar(50),
     longitude varchar(50),
     addition bool,
@@ -703,7 +703,7 @@ create table people_groups_data_only(
     evangelical_engagement bool,
     population bigint,
     dispersed bool,
-    rol char(3),
+    rol varchar(3),
     language varchar(200),
     religion varchar(200),
     nomadic bool,
@@ -722,13 +722,13 @@ create table people_groups_data_only(
     government_restrictions_index text,
     social_hostilities_index varchar(25),
     threat_level varchar(250),
-    rop1 char(5),
+    rop1 varchar(5),
     rop2 varchar(10),
     rop3 int,
     people_name varchar(200),
-    genc char(3),
-    fips char(2),
-    fips_of_origin char(2),
+    genc varchar(3),
+    fips varchar(2),
+    fips_of_origin varchar(2),
     latitude varchar(50),
     longitude varchar(50),
     imb_affinity_group varchar(200),
@@ -741,8 +741,8 @@ create table people_groups_data_only(
 create table rod_dialects(
     id bigserial primary key,
     dialect_code varchar(10),
-    language_code char(3),
-    country_code char(2),
+    language_code varchar(3),
+    country_code varchar(2),
     dialect_name varchar(200),
     language_name varchar(200),
     location_name varchar(200)
@@ -752,9 +752,9 @@ create table rod_changelist(
     id bigserial primary key,
     dialect_code varchar(10),
     date timestamp,
-    change_type char(3),
-    prev_language_code char(3),
-    new_language_code char(3),
+    change_type varchar(3),
+    prev_language_code varchar(3),
+    new_language_code varchar(3),
     explanation text
 );
 
@@ -769,7 +769,7 @@ create table glottolog_language(
     glottocode varchar(20),
     name varchar(200),
     top_level_family varchar(200),
-    iso_639_3 char(3),
+    iso_639_3 varchar(3),
     macro_area varchar(200),
     child_dialects int,
     latitude varchar(50),
