@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+enum ErrorType {
+  NoError
+  TokenInvalid
+  Unauthorized
+  UnknownError
+}
+
+input GenericInput {
+  id: Float!
+}
+
+type GenericOutput {
+  error: ErrorType!
+}
+
+type Query {
+  asdf(input: GenericInput!): GenericOutput!
+}
