@@ -20,12 +20,6 @@ create table database_version_control (
   completed timestamp default current_timestamp
 );
 
-
-create type table_names_enum as enum (
-  -- need to add all table names
-  'site_text_translations'
-);
-
 -- AUTHENTICATION ---------------------------------------------------
 
 create table users (
@@ -182,7 +176,7 @@ create table site_text_translations(
 -- voting ---------------------------------------------------
 create table votes (
   id bigserial primary key,
-  table_name table_names_enum not null,
+  table_name varchar(64) not null,
   row bigint not null,
   up bool not null -- true = up vote, false = down vote, delete record to remove vote from user
 );
@@ -190,7 +184,7 @@ create table votes (
 -- discussion ---------------------------------------------------
 create table discussions (
   id bigserial primary key,
-  table_name table_names_enum not null,
+  table_name varchar(64) not null,
   row bigint not null
 );
 
