@@ -178,14 +178,17 @@ create table votes (
   id bigserial primary key,
   table_name varchar(64) not null,
   row bigint not null,
-  up bool not null -- true = up vote, false = down vote, delete record to remove vote from user
+  user_id varchar(512),
+  up bool not null, -- true = up vote, false = down vote, delete record to remove vote from user
+  unique (table_name, row, user_id)
 );
 
 -- discussion ---------------------------------------------------
 create table discussions (
   id bigserial primary key,
   table_name varchar(64) not null,
-  row bigint not null
+  row bigint not null,
+  unique (table_name, row)
 );
 
 create table posts (
@@ -209,7 +212,8 @@ create index posts_search_gin on posts using gin (search_text);
 create table reactions (
   id bigserial primary key,
   user_id varchar(512) not null, -- will change, we use sso to track users
-  content bigint not null -- will change, not sure what format reactions need to take just yet
+  content bigint not null, -- will change, not sure what format reactions need to take just yet
+  unique (user_id, content)
 );
 
 -- DATASETS ---------------------------------------------------------
