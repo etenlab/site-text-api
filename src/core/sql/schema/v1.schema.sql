@@ -206,6 +206,12 @@ create table posts (
 
 create index posts_search_gin on posts using gin (search_text);
 
+create table reactions (
+  id bigserial primary key,
+  user_id varchar(512) not null, -- will change, we use sso to track users
+  content bigint not null -- will change, not sure what format reactions need to take just yet
+);
+
 -- DATASETS ---------------------------------------------------------
 
 create type iso_639_2_entry_type as enum (
