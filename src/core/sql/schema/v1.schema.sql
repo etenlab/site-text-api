@@ -126,11 +126,6 @@ create table notifications (
 create index on notifications (user_id, is_notified);
 
 -- language skill ---------------------------------------------------
-create type language_tables_enum as enum(
-  'iso_639_3',
-  'uf-languages'
-);
-
 create type language_skill_enum as enum (
   '1',
   '2',
@@ -142,7 +137,7 @@ create type language_skill_enum as enum (
 create table language_skills (
   id bigserial primary key,
   user_id varchar(512) not null, -- prolly will change, not sure how we will reference users yet
-  language_table language_tables_enum not null,
+  language_table varchar(64) not null,
   language_id bigint not null,
   skill_level language_skill_enum not null,
   unique (user_id, language_table, language_id)
@@ -157,7 +152,7 @@ create table app_list (
 create table site_text_keys (
   id bigserial primary key,
   app bigint not null references app_list(id),
-  language_table language_tables_enum not null,
+  language_table varchar(64) not null,
   language_id bigint not null,
   site_text_key varchar(512) not null,
   description varchar(512)
@@ -168,7 +163,7 @@ create table site_text_translations(
   id bigserial primary key,
   user_id varchar(512) not null, -- prolly will change, not sure how we will reference users yet
   site_text bigint not null references site_text_keys(id),
-  language_table language_tables_enum not null,
+  language_table varchar(64) not null,
   language_id bigint not null,
   site_text_translation varchar(512) not null
 );
