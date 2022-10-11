@@ -1,28 +1,40 @@
-import { Field, InputType, Int, ObjectType, registerEnumType } from "@nestjs/graphql";
+import {
+  Field,
+  InputType,
+  Int,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
 
 @ObjectType()
 export class EntityAddress {
-  @Field(type => Int) i: number
-  @Field(type => Int) c: number
+  @Field(() => Int) i: number;
+  @Field(() => Int) c: number;
 }
 
 @InputType()
 export class GenericInput {
-  @Field() readonly id: number
+  @Field() readonly id: number;
 }
 
 @ObjectType()
 export class GenericOutput {
-  @Field(type => ErrorType) readonly error: ErrorType
+  @Field(() => ErrorType) readonly error: ErrorType;
 }
 
 export enum ErrorType {
-  NoError = "NoError",
-  TokenInvalid = "TokenInvalid",
-  Unauthorized = "Unauthorized",
-  UnknownError = "UnknownError",
+  NoError = 'NoError',
+  TokenInvalid = 'TokenInvalid',
+  Unauthorized = 'Unauthorized',
+  UnknownError = 'UnknownError',
 }
 
 registerEnumType(ErrorType, {
   name: 'ErrorType',
 });
+
+@ObjectType({ isAbstract: true })
+export abstract class MutationPlaceholderOutput {
+  @Field()
+  success: true;
+}
