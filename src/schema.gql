@@ -19,6 +19,14 @@ type DeleteAppItemOutput {
   success: Boolean!
 }
 
+type DeleteSiteTextOutput {
+  success: Boolean!
+}
+
+type DeleteSiteTextTranslationOutput {
+  success: Boolean!
+}
+
 enum ErrorType {
   NoError
   TokenInvalid
@@ -36,11 +44,61 @@ type GenericOutput {
 
 type Mutation {
   createAppItem(input: AppItemInput!): AppItemOutput!
+  createSiteText(input: SiteTextInput!): SiteTextOutput!
+  createSiteTextTranslation(input: SiteTextTranslationInput!): SiteTextTranslationOutput!
   deleteAppItem(id: Float!): DeleteAppItemOutput!
+  deleteSiteText(id: Float!): DeleteSiteTextOutput!
+  deleteSiteTextTranslation(id: Float!): DeleteSiteTextTranslationOutput!
 }
 
 type Query {
   appItem(id: Float!): AppItem!
   appItems: [AppItem!]!
   asdf(input: GenericInput!): GenericOutput!
+  siteText(id: Float!): SiteText!
+  siteTextTranslation(id: Float!): SiteTextTranslation!
+  siteTextTranslations: [SiteTextTranslation!]!
+  siteTexts: [SiteText!]!
+}
+
+type SiteText {
+  app: Int!
+  description: String!
+  id: Int!
+  language_id: Int!
+  language_table: String!
+  site_text_key: String!
+}
+
+input SiteTextInput {
+  app: Int!
+  description: String!
+  language_id: Int
+  language_table: String
+  site_text_key: String!
+}
+
+type SiteTextOutput {
+  siteText: SiteText!
+}
+
+type SiteTextTranslation {
+  id: Int!
+  language_id: Int!
+  language_table: String!
+  site_text: Int!
+  site_text_translation: String!
+  user_id: Int!
+}
+
+input SiteTextTranslationInput {
+  language_id: Int
+  language_table: String
+  site_text: Int!
+  site_text_translation: String!
+  user_id: Int!
+}
+
+type SiteTextTranslationOutput {
+  siteTextTranslation: SiteTextTranslation!
 }
