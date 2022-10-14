@@ -19,6 +19,10 @@ type DeleteAppItemOutput {
   success: Boolean!
 }
 
+type DeleteLanguageProficiencyOutput {
+  success: Boolean!
+}
+
 type DeleteSiteTextOutput {
   success: Boolean!
 }
@@ -42,11 +46,40 @@ type GenericOutput {
   error: ErrorType!
 }
 
+type LanguageProficiency {
+  id: Int!
+  language_id: Int!
+  language_table: String!
+  skill_level: LanguageProficiencyEnum!
+  user_id: String!
+}
+
+enum LanguageProficiencyEnum {
+  Conversational
+  Fluent
+  Proficient
+  RecognizeWords
+  StartedLearning
+}
+
+input LanguageProficiencyInput {
+  language_id: Int!
+  language_table: String!
+  skill_level: LanguageProficiencyEnum!
+  user_id: String!
+}
+
+type LanguageProficiencyOutput {
+  languageProficiency: LanguageProficiency!
+}
+
 type Mutation {
   createAppItem(input: AppItemInput!): AppItemOutput!
+  createLanguageProficiency(input: LanguageProficiencyInput!): LanguageProficiencyOutput!
   createSiteText(input: SiteTextInput!): SiteTextOutput!
   createSiteTextTranslation(input: SiteTextTranslationInput!): SiteTextTranslationOutput!
   deleteAppItem(id: Float!): DeleteAppItemOutput!
+  deleteLanguageProficiency(id: Float!): DeleteLanguageProficiencyOutput!
   deleteSiteText(id: Float!): DeleteSiteTextOutput!
   deleteSiteTextTranslation(id: Float!): DeleteSiteTextTranslationOutput!
 }
@@ -55,6 +88,8 @@ type Query {
   appItem(id: Float!): AppItem!
   appItems: [AppItem!]!
   asdf(input: GenericInput!): GenericOutput!
+  languageProficiencies: [LanguageProficiency!]!
+  languageProficiency(id: Float!): LanguageProficiency!
   siteText(id: Float!): SiteText!
   siteTextTranslation(id: Float!): SiteTextTranslation!
   siteTextTranslations: [SiteTextTranslation!]!
@@ -89,7 +124,7 @@ type SiteTextTranslation {
   language_table: String!
   site_text: Int!
   site_text_translation: String!
-  user_id: Int!
+  user_id: String!
 }
 
 input SiteTextTranslationInput {
@@ -97,7 +132,7 @@ input SiteTextTranslationInput {
   language_table: String
   site_text: Int!
   site_text_translation: String!
-  user_id: Int!
+  user_id: String!
 }
 
 type SiteTextTranslationOutput {
