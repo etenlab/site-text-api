@@ -26,6 +26,11 @@ export class SiteTextResolver {
     return await this.service.list();
   }
 
+  @Query(() => [SiteText])
+  async siteTextsByAppId(@Args('id') appId: number): Promise<SiteText[]> {
+    return await this.service.listByAppId(appId);
+  }
+
   @Mutation(() => DeleteSiteTextOutput)
   async deleteSiteText(@Args('id') id: number): Promise<DeleteSiteTextOutput> {
     await this.service.delete(id);

@@ -3,7 +3,7 @@ import { SiteTextTranslation } from './site-text-translation.dto';
 
 @InputType()
 export class SiteTextTranslationInput {
-  @Field(() => Int) user_id: number;
+  @Field(() => String) user_id: string;
   @Field(() => Int) site_text: number;
   @Field(() => String) site_text_translation: string;
   @Field(() => String, { nullable: true }) language_table?: string;

@@ -49,6 +49,19 @@ export class SiteTextRepository {
       FROM site_text_keys;
       `,
     );
+
+    return res.rows;
+  }
+
+  async listByAppId(appId: number) {
+    const res = await this.pg.pool.query(
+      `
+      SELECT id, app, site_text_key, description, language_id, language_table
+      FROM site_text_keys WHERE app = $1;
+      `,
+      [appId],
+    );
+
     return res.rows;
   }
 

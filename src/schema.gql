@@ -59,6 +59,7 @@ type Query {
   siteTextTranslation(id: Float!): SiteTextTranslation!
   siteTextTranslations: [SiteTextTranslation!]!
   siteTexts: [SiteText!]!
+  siteTextsByAppId(id: Float!): [SiteText!]!
 }
 
 type SiteText {
