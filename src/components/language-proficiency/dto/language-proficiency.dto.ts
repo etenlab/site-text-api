@@ -19,4 +19,5 @@ export class LanguageProficiency {
   @Field(() => String) language_table: string;
   @Field(() => Int) language_id: number;
   @Field(() => LanguageProficiencyEnum) skill_level: LanguageProficiencyEnum;
+  @Field(() => String) ref_name: string;
 }

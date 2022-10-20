@@ -1,4 +1,4 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
   LanguageProficiency,
   LanguageProficiencyEnum,
@@ -9,7 +9,7 @@ export class LanguageProficiencyInput {
   @Field(() => String) user_id: string;
   @Field(() => LanguageProficiencyEnum) skill_level: LanguageProficiencyEnum;
   @Field(() => String) language_table: string;
-  @Field(() => Int) language_id: number;
+  @Field(() => String) language_id: string;
 }
 
 @ObjectType()

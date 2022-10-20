@@ -12,7 +12,7 @@ export class SiteTextTranslationRepository {
       INSERT INTO site_text_translations(
         site_text, site_text_translation, user_id, language_table,
         language_id)
-      VALUES($1, $2, $3, $4, $5)
+      VALUES($1, $2, $3, $4, (SELECT id FROM iso_639_3 WHERE iso_639_3 = $5))
       RETURNING id, site_text, site_text_translation, user_id, 
       language_table, language_id;
       `,

@@ -15,6 +15,10 @@ export class LanguageProficiencyService {
 
       return res;
     } catch (exception) {
+      if (exception.toString().includes('duplicate key')) {
+        console.error(exception);
+        throw new Error('Could not create language proficiency, duplicate');
+      }
       console.error(exception);
       throw new Error('Could not create language proficiency');
     }

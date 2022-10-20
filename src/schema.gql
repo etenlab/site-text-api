@@ -50,6 +50,7 @@ type LanguageProficiency {
   id: Int!
   language_id: Int!
   language_table: String!
+  ref_name: String!
   skill_level: LanguageProficiencyEnum!
   user_id: String!
 }
@@ -63,7 +64,7 @@ enum LanguageProficiencyEnum {
 }
 
 input LanguageProficiencyInput {
-  language_id: Int!
+  language_id: String!
   language_table: String!
   skill_level: LanguageProficiencyEnum!
   user_id: String!
@@ -128,8 +129,8 @@ type SiteTextTranslation {
 }
 
 input SiteTextTranslationInput {
-  language_id: Int
-  language_table: String
+  language_id: String!
+  language_table: String!
   site_text: Int!
   site_text_translation: String!
   user_id: String!

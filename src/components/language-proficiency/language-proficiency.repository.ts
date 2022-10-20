@@ -11,7 +11,7 @@ export class LanguageProficiencyRepository {
       `
       INSERT INTO language_skills(
         user_id, language_table, language_id, skill_level)
-      VALUES($1, $2, $3, $4)
+      VALUES($1, $2, (SELECT id FROM iso_639_3 WHERE iso_639_3 = $3), $4)
       RETURNING id, user_id, language_table, language_id, skill_level; 
       `,
       [
@@ -28,8 +28,10 @@ export class LanguageProficiencyRepository {
   async read(id: number) {
     const res = await this.pg.pool.query(
       `
-      SELECT id, user_id, language_table, language_id, skill_level
-      FROM language_skills WHERE id = $1;
+      SELECT ls.id, ls.user_id, ls.language_table, ls.language_id, 
+              ls.skill_level, iso.ref_name 
+      FROM language_skills as ls
+      JOIN iso_639_3 as iso ON ls.language_id = iso.id AND ls.id = $1;
       `,
       [id],
     );
@@ -44,8 +46,10 @@ export class LanguageProficiencyRepository {
   async list() {
     const res = await this.pg.pool.query(
       `
-      SELECT id, user_id, language_table, language_id, skill_level
-      FROM language_skills;
+      SELECT ls.id, ls.user_id, ls.language_table, ls.language_id,
+              ls.skill_level, iso.ref_name 
+      FROM language_skills as ls
+      JOIN iso_639_3 as iso ON ls.language_id = iso.id;
       `,
     );
 
