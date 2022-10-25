@@ -61,6 +61,9 @@ export class DatabaseVersionControlService {
     // schema
     await this.runSqlFile('./src/core/sql/schema/v1.schema.sql');
 
+    // load iso_639_3
+    await this.runSqlFile('./src/core/sql/scripts/iso_639_3.sql');
+
     // load dummy data for showcase app
     await this.runSqlFile('./src/core/sql/scripts/showcase.sql');
 

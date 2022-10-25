@@ -1,8 +1,3 @@
--- Insert iso_639_3 for English language
-INSERT INTO iso_639_3(iso_639_3, part_2b, part_2t, part_1, scope, entry_type, ref_name)
-VALUES('eng', 'eng', 'eng', 'en', 'I', 'L', 'English')
-ON CONFLICT (id) DO NOTHING;
-
 -- Insert language skill
 INSERT INTO language_skills(user_id, language_table, language_id, skill_level)
 VALUES('user_id', 'iso_639_6', (SELECT id FROM iso_639_3 WHERE iso_639_3 = 'eng'), '5');

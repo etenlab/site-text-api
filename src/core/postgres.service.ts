@@ -10,9 +10,11 @@ import { Pool } from 'pg';
 export class PostgresService {
   readonly pool = new Pool({
     user: 'postgres',
-    host: 'localhost',
+    host: 'host.docker.internal',
+    // host: 'localhost',
     database: 'eil_db_1',
     password: 'admin',
-    port: 5432,
+    port: 5433,
+    // port: 5433,
   });
 }
