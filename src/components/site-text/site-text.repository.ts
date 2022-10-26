@@ -9,7 +9,7 @@ export class SiteTextRepository {
   async create(input: SiteTextInput) {
     const res = await this.pg.pool.query(
       `
-      INSERT INTO site_text_keys(
+      INSERT INTO admin.site_text_keys(
         app, site_text_key, description, language_id, language_table) 
       VALUES($1, $2, $3, $4, $5) 
       RETURNING id, app, site_text_key, description, language_id, language_table;
@@ -30,7 +30,7 @@ export class SiteTextRepository {
     const res = await this.pg.pool.query(
       `
       SELECT id, app, site_text_key, description, language_id, language_table
-      FROM site_text_keys WHERE id = $1;
+      FROM admin.site_text_keys WHERE id = $1;
       `,
       [id],
     );
@@ -46,7 +46,7 @@ export class SiteTextRepository {
     const res = await this.pg.pool.query(
       `
       SELECT id, app, site_text_key, description, language_id, language_table 
-      FROM site_text_keys;
+      FROM admin.site_text_keys;
       `,
     );
 
@@ -57,7 +57,7 @@ export class SiteTextRepository {
     const res = await this.pg.pool.query(
       `
       SELECT id, app, site_text_key, description, language_id, language_table
-      FROM site_text_keys WHERE app = $1;
+      FROM admin.site_text_keys WHERE app = $1;
       `,
       [appId],
     );
@@ -66,6 +66,9 @@ export class SiteTextRepository {
   }
 
   async delete(id: number) {
-    await this.pg.pool.query('DELETE FROM site_text_keys WHERE id = $1;', [id]);
+    await this.pg.pool.query(
+      'DELETE FROM admin.site_text_keys WHERE id = $1;',
+      [id],
+    );
   }
 }

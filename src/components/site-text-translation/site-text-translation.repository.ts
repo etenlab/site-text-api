@@ -9,7 +9,7 @@ export class SiteTextTranslationRepository {
   async create(input: SiteTextTranslationInput) {
     const res = await this.pg.pool.query(
       `
-      INSERT INTO site_text_translations(
+      INSERT INTO admin.site_text_translations(
         site_text, site_text_translation, user_id, language_table,
         language_id)
       VALUES($1, $2, $3, $4, (SELECT id FROM iso_639_3 WHERE iso_639_3 = $5))
@@ -33,7 +33,7 @@ export class SiteTextTranslationRepository {
       `
       SELECT id, site_text, site_text_translation, user_id, 
           language_table, language_id
-      FROM site_text_translations WHERE id = $1;
+      FROM admin.site_text_translations WHERE id = $1;
       `,
       [id],
     );
@@ -50,7 +50,7 @@ export class SiteTextTranslationRepository {
       `
        SELECT id, site_text, site_text_translation, user_id, 
           language_table, language_id
-      FROM site_text_translations;
+      FROM admin.site_text_translations;
       `,
       [],
     );
@@ -60,7 +60,7 @@ export class SiteTextTranslationRepository {
 
   async delete(id: number) {
     return await this.pg.pool.query(
-      `DELETE FROM site_text_translations WHERE id = $1;`,
+      `DELETE FROM admin.site_text_translations WHERE id = $1;`,
       [id],
     );
   }

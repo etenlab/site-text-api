@@ -9,7 +9,7 @@ export class LanguageProficiencyRepository {
   async create(input: LanguageProficiencyInput) {
     const res = await this.pg.pool.query(
       `
-      INSERT INTO language_skills(
+      INSERT INTO admin.language_skills(
         user_id, language_table, language_id, skill_level)
       VALUES($1, $2, (SELECT id FROM iso_639_3 WHERE iso_639_3 = $3), $4)
       RETURNING id, user_id, language_table, language_id, skill_level; 
@@ -30,7 +30,7 @@ export class LanguageProficiencyRepository {
       `
       SELECT ls.id, ls.user_id, ls.language_table, ls.language_id, 
               ls.skill_level, iso.ref_name 
-      FROM language_skills as ls
+      FROM admin.language_skills as ls
       JOIN iso_639_3 as iso ON ls.language_id = iso.id AND ls.id = $1;
       `,
       [id],
@@ -48,7 +48,7 @@ export class LanguageProficiencyRepository {
       `
       SELECT ls.id, ls.user_id, ls.language_table, ls.language_id,
               ls.skill_level, iso.ref_name 
-      FROM language_skills as ls
+      FROM admin.language_skills as ls
       JOIN iso_639_3 as iso ON ls.language_id = iso.id;
       `,
     );
@@ -58,7 +58,7 @@ export class LanguageProficiencyRepository {
 
   async delete(id: number) {
     return await this.pg.pool.query(
-      `DELETE FROM language_skills WHERE id = $1;`,
+      `DELETE FROM admin.language_skills WHERE id = $1;`,
       [id],
     );
   }

@@ -7,7 +7,7 @@ export class AppItemRepository {
 
   async create(app_name: string) {
     const res = await this.pg.pool.query(
-      'INSERT INTO app_list(app_name) VALUES($1) RETURNING id, app_name;',
+      'INSERT INTO admin.app_list(app_name) VALUES($1) RETURNING id, app_name;',
       [app_name],
     );
 
@@ -16,7 +16,7 @@ export class AppItemRepository {
 
   async read(id: number) {
     const res = await this.pg.pool.query(
-      'SELECT id, app_name FROM app_list WHERE id = $1;',
+      'SELECT id, app_name FROM admin.app_list WHERE id = $1;',
       [id],
     );
 
@@ -28,11 +28,13 @@ export class AppItemRepository {
   }
 
   async list() {
-    const res = await this.pg.pool.query('SELECT id, app_name FROM app_list;');
+    const res = await this.pg.pool.query(
+      'SELECT id, app_name FROM admin.app_list;',
+    );
     return res.rows;
   }
 
   async delete(id: number) {
-    await this.pg.pool.query('DELETE FROM app_list WHERE id = $1', [id]);
+    await this.pg.pool.query('DELETE FROM admin.app_list WHERE id = $1', [id]);
   }
 }
