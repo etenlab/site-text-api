@@ -9,12 +9,19 @@ import { Pool } from 'pg';
 @Injectable()
 export class PostgresService {
   readonly pool = new Pool({
-    user: 'postgres',
-    // host: 'host.docker.internal',
+    user: process.env.POSTGRES_USER,
     host: 'localhost',
-    database: 'eil_db_1',
-    password: 'asdfasdf',
-    // port: 5433,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
     port: 5432,
   });
 }
+
+// Docker
+// {
+//   user: process.env.POSTGRES_USER,
+//   host: 'host.docker.internal',
+//   database: process.env.POSTGRES_DB,
+//   password: process.env.POSTGRES_PASSWORD,
+//   port: 5433,
+// }
