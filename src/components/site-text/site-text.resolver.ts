@@ -27,7 +27,7 @@ export class SiteTextResolver {
   }
 
   @Query(() => [SiteText])
-  async siteTextsByAppId(@Args('id') appId: number): Promise<SiteText[]> {
+  async siteTextsByApp(@Args('id') appId: number): Promise<SiteText[]> {
     return await this.service.listByAppId(appId);
   }
 
