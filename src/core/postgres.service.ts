@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 // await client.connect()
 // const res = await client.query('SELECT $1::text as message', ['Hello world!'])
@@ -9,19 +11,10 @@ import { Pool } from 'pg';
 @Injectable()
 export class PostgresService {
   readonly pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'eil_db_1',
-    password: 'asdfasdf',
-    port: 5432,
+    user: process.env.DB_USERNAME,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: +process.env.DB_PORT!,
   });
 }
-
-// Docker
-// {
-//   user: process.env.POSTGRES_USER,
-//   host: 'host.docker.internal',
-//   database: process.env.POSTGRES_DB,
-//   password: process.env.POSTGRES_PASSWORD,
-//   port: 5433,
-// }
