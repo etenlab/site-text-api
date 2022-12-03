@@ -32,6 +32,10 @@ export class LanguageProficiencyService {
     return await this.repo.list();
   }
 
+  async listByUserid(userId: string) {
+    return await this.repo.listByUserid(userId);
+  }
+
   async delete(id: number) {
     return await this.repo.delete(id);
   }

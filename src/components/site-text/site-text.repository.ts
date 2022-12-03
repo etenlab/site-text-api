@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PostgresService } from 'src/core/postgres.service';
 import { SiteTextInput } from './dto/create-site-text.dto';
+import { UpdateSiteTextInput } from './dto/update-site-text.dto';
 
 @Injectable()
 export class SiteTextRepository {
@@ -40,6 +41,22 @@ export class SiteTextRepository {
     }
 
     return res.rows[0];
+  }
+
+  async update(input: UpdateSiteTextInput) {
+    const res = await this.pg.pool.query(
+      `
+      UPDATE admin.site_text_keys SET description = $1, 
+      site_text_key = $2 WHERE id = $3 RETURNING id;
+      `,
+      [input.description, input.site_text_key, input.site_text_id],
+    );
+
+    if (!res.rows[0]) {
+      throw new Error('Could not find site text');
+    }
+
+    return this.read(input.site_text_id);
   }
 
   async list() {
