@@ -192,11 +192,15 @@ create table admin.site_text_translations(
 );
 
 -- voting ---------------------------------------------------
+create table admin.votables(
+  table_name varchar(64) not null unique
+);
+
 create table admin.elections (
   id bigserial primary key,
   app_id bigint not null, -- todo, references app
   name varchar(128) not null,
-  table_name varchar(64) not null,
+  table_name varchar(64) not null references admin.votables(table_name),
   row bigint not null,
   created_by varchar(512), -- placeholder, not sure how to reference users yet
   unique (app_id, name)
@@ -205,7 +209,7 @@ create table admin.elections (
 create table admin.ballot_entries (
   id bigserial primary key,
   election_id bigint not null references admin.elections(id),
-  table_name varchar(64) not null,
+  table_name varchar(64) not null references admin.votables(table_name),
   row bigint not null,
   created_by varchar(512) -- placeholder, not sure how to reference users yet
 );
