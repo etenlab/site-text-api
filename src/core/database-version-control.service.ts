@@ -67,6 +67,8 @@ export class DatabaseVersionControlService {
     // load dummy data for showcase app
     await this.runSqlFile('./src/core/sql/scripts/showcase.sql');
 
+    await this.runSqlFile('./src/core/sql/scripts/voting.sql');
+
     // update db version
     await this.setVersionNumber(1);
   }
