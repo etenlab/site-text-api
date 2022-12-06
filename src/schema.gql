@@ -122,6 +122,7 @@ type SiteTextOutput {
 }
 
 type SiteTextTranslation {
+  description_translation: String!
   id: Int!
   language_id: Int!
   language_table: String!
@@ -131,6 +132,7 @@ type SiteTextTranslation {
 }
 
 input SiteTextTranslationInput {
+  description_translation: String!
   language_id: String!
   language_table: String!
   site_text: Int!
