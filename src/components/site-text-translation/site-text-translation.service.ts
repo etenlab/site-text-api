@@ -24,8 +24,8 @@ export class SiteTextTranslationService {
     return await this.repo.read(id);
   }
 
-  async list() {
-    return await this.repo.list();
+  async list(siteTextId: number) {
+    return await this.repo.list(siteTextId);
   }
 
   async delete(id: number) {

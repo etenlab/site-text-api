@@ -46,14 +46,14 @@ export class SiteTextTranslationRepository {
     return res.rows[0];
   }
 
-  async list() {
+  async list(siteTextId: number) {
     const res = await this.pg.pool.query(
       `
-       SELECT id, site_text, site_text_translation, 
-       description_translation, user_id, language_table, language_id
-      FROM admin.site_text_translations;
+      SELECT id, site_text, site_text_translation, 
+      description_translation, user_id, language_table, language_id
+      FROM admin.site_text_translations WHERE site_text = $1;
       `,
-      [],
+      [siteTextId],
     );
 
     return res.rows;

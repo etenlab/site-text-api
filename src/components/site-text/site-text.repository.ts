@@ -12,7 +12,7 @@ export class SiteTextRepository {
       `
       INSERT INTO admin.site_text_keys(
         app, site_text_key, description, language_id, language_table) 
-      VALUES($1, $2, $3, $4, $5) 
+      VALUES($1, $2, $3, (SELECT id FROM iso_639_3 WHERE iso_639_3 = $4), $5) 
       RETURNING id, app, site_text_key, description, language_id, language_table;
       `,
       [

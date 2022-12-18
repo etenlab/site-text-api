@@ -95,7 +95,7 @@ type Query {
   languageProfienciesByUserId(user_id: String!): [LanguageProficiency!]!
   siteText(id: Float!): SiteText!
   siteTextTranslation(id: Float!): SiteTextTranslation!
-  siteTextTranslations: [SiteTextTranslation!]!
+  siteTextTranslations(siteTextId: Float!): [SiteTextTranslation!]!
   siteTexts: [SiteText!]!
   siteTextsByApp(id: Float!): [SiteText!]!
 }
@@ -112,7 +112,7 @@ type SiteText {
 input SiteTextInput {
   app: Int!
   description: String!
-  language_id: Int
+  language_id: String!
   language_table: String
   site_text_key: String!
 }
