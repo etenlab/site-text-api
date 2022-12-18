@@ -107,6 +107,7 @@ type SiteText {
   language_id: Int!
   language_table: String!
   site_text_key: String!
+  translations: Int!
 }
 
 input SiteTextInput {

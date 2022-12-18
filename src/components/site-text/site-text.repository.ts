@@ -73,8 +73,11 @@ export class SiteTextRepository {
   async listByAppId(appId: number) {
     const res = await this.pg.pool.query(
       `
-      SELECT id, app, site_text_key, description, language_id, language_table
-      FROM admin.site_text_keys WHERE app = $1;
+      SELECT st.id, st.app, st.site_text_key, st.description, st.language_id, st.language_table, COUNT(stt.site_text) as translations
+      FROM admin.site_text_keys as st
+      LEFT JOIN admin.site_text_translations as stt ON st.id = stt.site_text
+      WHERE st.app = $1
+      GROUP BY st.id
       `,
       [appId],
     );
