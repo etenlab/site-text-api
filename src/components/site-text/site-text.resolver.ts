@@ -34,8 +34,11 @@ export class SiteTextResolver {
   }
 
   @Query(() => [SiteText])
-  async siteTextsByApp(@Args('id') appId: number): Promise<SiteText[]> {
-    return await this.service.listByAppId(appId);
+  async siteTextsByApp(
+    @Args('id') appId: number,
+    @Args('iso_code', { nullable: true }) isoCode?: string,
+  ): Promise<SiteText[]> {
+    return await this.service.listByAppId(appId, isoCode);
   }
 
   @Mutation(() => DeleteSiteTextOutput)

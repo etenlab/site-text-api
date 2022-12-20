@@ -97,7 +97,7 @@ type Query {
   siteTextTranslation(id: Float!): SiteTextTranslation!
   siteTextTranslations(siteTextId: Float!): [SiteTextTranslation!]!
   siteTexts: [SiteText!]!
-  siteTextsByApp(id: Float!): [SiteText!]!
+  siteTextsByApp(id: Float!, iso_code: String): [SiteText!]!
 }
 
 type SiteText {
@@ -107,7 +107,7 @@ type SiteText {
   language_id: Int!
   language_table: String!
   site_text_key: String!
-  translations: Int!
+  translations: Int
 }
 
 input SiteTextInput {

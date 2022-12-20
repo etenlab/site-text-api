@@ -8,5 +8,5 @@ export class SiteText {
   @Field(() => String) description: string;
   @Field(() => String) language_table: string;
   @Field(() => Int) language_id: number;
-  @Field(() => Int) translations: number;
+  @Field(() => Int, { nullable: true }) translations?: number;
 }
