@@ -16,7 +16,7 @@ $$ language 'plpgsql' STRICT;
 -- VERSION CONTROL ---------------------------------------------------
 
 -- reference table
-create table admin.database_version_control (
+create table database_version_control (
   id bigserial primary key,
   version bigint not null,
   completed timestamp default current_timestamp
