@@ -43,17 +43,6 @@ CREATE OR REPLACE FUNCTION load_data() RETURNS void as $$
         ),
         'site_text_key',
         'description'
-      ),
-      (
-        appId,
-        'iso_639_3',
-        (
-          SELECT id
-          FROM iso_639_3
-          WHERE iso_639_3 = 'eng'
-        ),
-        'site_text_key 2',
-        'description'
       );
 
      SELECT id INTO siteTextId
@@ -78,8 +67,8 @@ CREATE OR REPLACE FUNCTION load_data() RETURNS void as $$
           WHERE iso_639_3 = 'eng'
         ),
         'user_id',
-        'site text translation',
-        'description translation'
+        'site text translation 1',
+        'description translation 1'
       ),
       (
         siteTextId,
@@ -145,7 +134,7 @@ CREATE OR REPLACE FUNCTION load_data() RETURNS void as $$
         (
           SELECT id
           FROM admin.site_text_translations
-          WHERE site_text_translation = 'site text translation'
+          WHERE site_text_translation = 'site text translation 1'
         ),
         'user_id'
       ),
@@ -178,6 +167,128 @@ CREATE OR REPLACE FUNCTION load_data() RETURNS void as $$
           WHERE site_text_translation = 'site text translation 4'
         ),
         'user_id'
+      );
+
+    INSERT INTO admin.votes(user_id, ballot_entry_id, up)
+    VALUES(
+        'showcaseuser@showcase.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 1'
+        ),
+        true
+      ),
+      (
+        'daniel@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 2'
+        ),
+        true
+      ),
+      (
+        'daniel@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 1'
+        ),
+        false
+      ),
+      (
+        'daniel@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 3'
+        ),
+        false
+      ),
+      (
+        'daniel@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 4'
+        ),
+        true
+      ),
+      (
+        'michael@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 1'
+        ),
+        false
+      ),
+      (
+        'michael@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 2'
+        ),
+        true
+      ),
+      (
+        'michael@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 3'
+        ),
+        false
+      ),
+      (
+        'svetlana@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 3'
+        ),
+        false
+      ),
+      (
+        'svetlana@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 2'
+        ),
+        true
+      ),
+      (
+        'hiroshi@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 2'
+        ),
+        true
+      ),
+      (
+        'aslam@mail.com', 
+        (
+          SELECT be.id
+          FROM admin.ballot_entries AS be
+          JOIN admin.site_text_translations as stt ON stt.id = be.row
+          WHERE stt.site_text_translation = 'site text translation 4'
+        ),
+        true
       );
   END;
   $$ LANGUAGE plpgsql;
