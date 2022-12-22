@@ -129,7 +129,7 @@ type SiteTextTranslation {
   language_table: String!
   site_text: Int!
   site_text_translation: String!
-  user_id: String!
+  user_id: String
 }
 
 input SiteTextTranslationInput {

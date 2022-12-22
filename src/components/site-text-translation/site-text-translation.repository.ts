@@ -49,9 +49,16 @@ export class SiteTextTranslationRepository {
   async list(siteTextId: number) {
     const res = await this.pg.pool.query(
       `
-      SELECT id, site_text, site_text_translation, 
-      description_translation, user_id, language_table, language_id
-      FROM admin.site_text_translations WHERE site_text = $1;
+      SELECT COALESCE(stt.id, -1) AS id, 
+      COALESCE(stt.site_text, st.id) as site_text, 
+      COALESCE(stt.description_translation, st.description) as description_translation,
+      COALESCE(stt.language_id, st.language_id) as language_id,
+      COALESCE(stt.language_table, st.language_table) as language_table,
+      COALESCE(stt.site_text_translation, st.site_text_key) as site_text_translation,
+      COALESCE(stt.user_id, null) as user_id 
+      FROM admin.site_text_translations as stt 
+      FULL OUTER JOIN admin.site_text_keys as st ON st.id = stt.site_text
+      WHERE st.id = $1;
       `,
       [siteTextId],
     );
