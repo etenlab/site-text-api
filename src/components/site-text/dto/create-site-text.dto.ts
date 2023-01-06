@@ -7,7 +7,7 @@ export class SiteTextInput {
   @Field(() => String) site_text_key: string;
   @Field(() => String) description: string;
   @Field(() => String, { nullable: true }) language_table?: string;
-  @Field(() => Int, { nullable: true }) language_id?: number;
+  @Field(() => String) language_id: string;
 }
 
 @ObjectType()

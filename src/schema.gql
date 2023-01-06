@@ -103,6 +103,7 @@ type Mutation {
   deleteLanguageProficiency(id: Float!): DeleteLanguageProficiencyOutput!
   deleteSiteText(id: Float!): DeleteSiteTextOutput!
   deleteSiteTextTranslation(id: Float!): DeleteSiteTextTranslationOutput!
+  updateSiteText(input: UpdateSiteTextInput!): SiteTextOutput!
 }
 
 type Query {
@@ -111,11 +112,12 @@ type Query {
   asdf(input: GenericInput!): GenericOutput!
   languageProficiencies: [LanguageProficiency!]!
   languageProficiency(id: Float!): LanguageProficiency!
+  languageProfienciesByUserId(user_id: String!): [LanguageProficiency!]!
   siteText(id: Float!): SiteText!
   siteTextTranslation(id: Float!): SiteTextTranslation!
-  siteTextTranslations: [SiteTextTranslation!]!
+  siteTextTranslations(siteTextId: Float!): [SiteTextTranslation!]!
   siteTexts: [SiteText!]!
-  siteTextsByApp(id: Float!): [SiteText!]!
+  siteTextsByApp(id: Float!, iso_code: String): [SiteText!]!
 }
 
 type SiteText {
@@ -125,12 +127,13 @@ type SiteText {
   language_id: Int!
   language_table: String!
   site_text_key: String!
+  translations: Int
 }
 
 input SiteTextInput {
   app: Int!
   description: String!
-  language_id: Int
+  language_id: String!
   language_table: String
   site_text_key: String!
 }
@@ -140,15 +143,17 @@ type SiteTextOutput {
 }
 
 type SiteTextTranslation {
+  description_translation: String!
   id: Int!
   language_id: Int!
   language_table: String!
   site_text: Int!
   site_text_translation: String!
-  user_id: String!
+  user_id: String
 }
 
 input SiteTextTranslationInput {
+  description_translation: String!
   language_id: String!
   language_table: String!
   site_text: Int!
@@ -161,3 +166,9 @@ type SiteTextTranslationOutput {
 }
 
 scalar link__Import
+
+input UpdateSiteTextInput {
+  description: String!
+  site_text_id: Int!
+  site_text_key: String!
+}

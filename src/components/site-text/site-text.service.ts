@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SiteTextInput } from './dto/create-site-text.dto';
+import { UpdateSiteTextInput } from './dto/update-site-text.dto';
 import { SiteTextRepository } from './site-text.repository';
 
 @Injectable()
@@ -20,6 +21,14 @@ export class SiteTextService {
     }
   }
 
+  async update(input: UpdateSiteTextInput) {
+    if (input.description !== '' && input.site_text_key !== '') {
+      return await this.repo.update(input);
+    }
+
+    return await this.repo.read(input.site_text_id);
+  }
+
   async read(id: number) {
     return await this.repo.read(id);
   }
@@ -28,8 +37,8 @@ export class SiteTextService {
     return await this.repo.list();
   }
 
-  async listByAppId(appId: number) {
-    return await this.repo.listByAppId(appId);
+  async listByAppId(appId: number, isoCode?: string) {
+    return await this.repo.listByAppId(appId, isoCode);
   }
 
   async delete(id: number) {

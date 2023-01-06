@@ -27,8 +27,8 @@ export class SiteTextTranslationResolver {
   }
 
   @Query(() => [SiteTextTranslation])
-  async siteTextTranslations() {
-    return await this.service.list();
+  async siteTextTranslations(@Args('siteTextId') siteTextId: number) {
+    return await this.service.list(siteTextId);
   }
 
   @Mutation(() => DeleteSiteTextTranslationOutput)

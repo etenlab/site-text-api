@@ -31,6 +31,13 @@ export class LanguageProficiencyResolver {
     return await this.service.list();
   }
 
+  @Query(() => [LanguageProficiency])
+  async languageProfienciesByUserId(
+    @Args('user_id') user_id: string,
+  ): Promise<LanguageProficiency[]> {
+    return await this.service.listByUserid(user_id);
+  }
+
   @Mutation(() => DeleteLanguageProficiencyOutput)
   async deleteLanguageProficiency(
     @Args('id') id: number,

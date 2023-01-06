@@ -2,6 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { SiteTextInput, SiteTextOutput } from './dto/create-site-text.dto';
 import { DeleteSiteTextOutput } from './dto/delete-site-text.dto';
 import { SiteText } from './dto/site-text.dto';
+import { UpdateSiteTextInput } from './dto/update-site-text.dto';
 import { SiteTextService } from './site-text.service';
 
 @Resolver(SiteText)
@@ -16,6 +17,12 @@ export class SiteTextResolver {
     return { siteText };
   }
 
+  @Mutation(() => SiteTextOutput)
+  async updateSiteText(@Args('input') input: UpdateSiteTextInput) {
+    const siteText = await this.service.update(input);
+    return { siteText };
+  }
+
   @Query(() => SiteText)
   async siteText(@Args('id') id: number): Promise<SiteText> {
     return await this.service.read(id);
@@ -27,8 +34,11 @@ export class SiteTextResolver {
   }
 
   @Query(() => [SiteText])
-  async siteTextsByApp(@Args('id') appId: number): Promise<SiteText[]> {
-    return await this.service.listByAppId(appId);
+  async siteTextsByApp(
+    @Args('id') appId: number,
+    @Args('iso_code', { nullable: true }) isoCode?: string,
+  ): Promise<SiteText[]> {
+    return await this.service.listByAppId(appId, isoCode);
   }
 
   @Mutation(() => DeleteSiteTextOutput)
