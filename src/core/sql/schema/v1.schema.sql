@@ -15,8 +15,17 @@ $$ language 'plpgsql' STRICT;
 
 -- VERSION CONTROL ---------------------------------------------------
 
+CREATE TABLE typeorm_metadata (
+  "type" varchar(255) NOT NULL,
+  "database" varchar(255) DEFAULT NULL,
+  "schema" varchar(255) DEFAULT NULL,
+  "table" varchar(255) DEFAULT NULL,
+  "name" varchar(255) DEFAULT NULL,
+  "value" text
+);
+
 -- reference table
-create table admin.database_version_control (
+create table database_version_control (
   id bigserial primary key,
   version bigint not null,
   completed timestamp default current_timestamp
@@ -28,6 +37,7 @@ create table admin.users (
   user_id bigserial primary key,
   active bool not null default true,
   email varchar(255) unique not null,
+  username varchar(255) unique not null,
   is_email_verified bool not null default false,
   password varchar(128) not null,
   created_at timestamp not null default current_timestamp
@@ -116,16 +126,6 @@ create table admin.emails_blocked (
   email varchar(255) primary key,
   created_at timestamp not null default current_timestamp
 );
-
-create table admin.notifications (
-  notification_id bigserial primary key,
-  user_id bigint not null references admin.users(user_id),
-  is_notified bool not null default false,
-  text text,
-  created_at timestamp not null default current_timestamp
-);
-
-create index on admin.notifications (user_id, is_notified);
 
 -- Organizations, Roles, Authorization -----------------------------------------------
 
@@ -234,8 +234,9 @@ create table admin.discussions (
 
 create table admin.posts (
   id bigserial primary key,
-  discussion bigint references admin.discussions(id),
-  user_id varchar(512) not null, -- prolly will change, not sure how we will reference users yet
+  discussion_id bigint references admin.discussions(id),
+  user_id bigint not null references admin.users(user_id), 
+  -- prolly will change, not sure how we will reference users yet
   quill_text text,
   plain_text text,
   postgres_language regconfig not null default 'simple',
@@ -245,6 +246,8 @@ create table admin.posts (
   			plain_text
   		)
   ) stored,
+  is_edited bool not null default false,
+  reply_id bigint references admin.posts(id),
   created_at timestamp default current_timestamp
 );
 
@@ -252,9 +255,38 @@ create index posts_search_gin on admin.posts using gin (search_text);
 
 create table admin.reactions (
   id bigserial primary key,
-  user_id varchar(512) not null, -- will change, we use sso to track users
-  content bigint not null, -- will change, not sure what format reactions need to take just yet
-  unique (user_id, content)
+  user_id bigint not null references admin.users(user_id), 
+  -- will change, we use sso to track users
+  post_id bigint not null references admin.posts(id),
+  content varchar(64) not null,
+  unique (user_id, content, post_id)
+);
+
+-- file ---------------------------------------------------
+create table admin.files (
+  id bigserial primary key,
+  file_name varchar(256) not null,
+  file_size bigint not null,
+  file_type varchar(256),
+  file_url varchar(256) not null
+);
+
+-- relationship_post_file ---------------------------------
+create table admin.relationship_post_file (
+  id bigserial primary key,
+  post_id bigint not null references admin.posts(id),
+  file_id bigint not null references admin.files(id)
+);
+
+-- NOTIFICATIONS ----------------------------------------------------
+create table admin.notifications (
+  id bigserial primary key,
+  user_id bigint not null references admin.users(user_id),
+  table_name varchar(64) not null,
+  row bigint not null,
+  acknowledged bool not null default false,
+  content text,
+  created_at timestamp default current_timestamp
 );
 
 -- DATASETS ---------------------------------------------------------

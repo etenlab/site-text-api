@@ -41,3 +41,7 @@ parsed
 **/scripts2/20220920
 **/scripts2/20220920_1
 pgdata/*
+
+.env
+
+.devcontainer
