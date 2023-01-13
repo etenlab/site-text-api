@@ -5,8 +5,8 @@ import { PostgresService } from './postgres.service';
 @Injectable()
 export class DatabaseVersionControlService {
   constructor(private pg: PostgresService) {
-    console.log('upserting site text procedures');
-    this.upsert_procedures();
+    // console.log('upserting site text procedures');
+    // this.upsert_procedures();
   }
 
   async upsert_procedures() {
