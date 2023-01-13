@@ -2,6 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+directive @extends on INTERFACE | OBJECT
+
+directive @external on FIELD_DEFINITION | OBJECT
+
+directive @inaccessible on ARGUMENT_DEFINITION | ENUM | ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION | INPUT_OBJECT | INTERFACE | OBJECT | SCALAR | UNION
+
+directive @key(fields: String!, resolvable: Boolean = true) repeatable on INTERFACE | OBJECT
+
+directive @link(import: [link__Import], url: String!) on SCHEMA
+
+directive @override(from: String!) on FIELD_DEFINITION
+
+directive @provides(fields: String!) on FIELD_DEFINITION
+
+directive @requires(fields: String!) on FIELD_DEFINITION
+
+directive @shareable on FIELD_DEFINITION | OBJECT
+
+directive @tag(name: String!) repeatable on ARGUMENT_DEFINITION | ENUM | ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION | INPUT_OBJECT | INTERFACE | OBJECT | SCALAR | UNION
+
 type AppItem {
   app_name: String!
   id: Int!
@@ -97,7 +117,7 @@ type Query {
   siteTextTranslation(id: Float!): SiteTextTranslation!
   siteTextTranslations(siteTextId: Float!): [SiteTextTranslation!]!
   siteTexts: [SiteText!]!
-  siteTextsByApp(id: Float!): [SiteText!]!
+  siteTextsByApp(id: Float!, iso_code: String): [SiteText!]!
 }
 
 type SiteText {
@@ -107,6 +127,7 @@ type SiteText {
   language_id: Int!
   language_table: String!
   site_text_key: String!
+  translations: Int
 }
 
 input SiteTextInput {
@@ -128,7 +149,7 @@ type SiteTextTranslation {
   language_table: String!
   site_text: Int!
   site_text_translation: String!
-  user_id: String!
+  user_id: String
 }
 
 input SiteTextTranslationInput {
@@ -149,3 +170,5 @@ input UpdateSiteTextInput {
   site_text_id: Int!
   site_text_key: String!
 }
+
+scalar link__Import

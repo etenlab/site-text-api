@@ -37,8 +37,8 @@ export class SiteTextService {
     return await this.repo.list();
   }
 
-  async listByAppId(appId: number) {
-    return await this.repo.listByAppId(appId);
+  async listByAppId(appId: number, isoCode?: string) {
+    return await this.repo.listByAppId(appId, isoCode);
   }
 
   async delete(id: number) {
