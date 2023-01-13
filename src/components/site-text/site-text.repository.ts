@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PostgresService } from 'src/core/postgres.service';
 import { SiteTextInput } from './dto/create-site-text.dto';
+import { UpdateSiteTextInput } from './dto/update-site-text.dto';
 
 @Injectable()
 export class SiteTextRepository {
@@ -11,7 +12,7 @@ export class SiteTextRepository {
       `
       INSERT INTO admin.site_text_keys(
         app, site_text_key, description, language_id, language_table) 
-      VALUES($1, $2, $3, $4, $5) 
+      VALUES($1, $2, $3, (SELECT id FROM iso_639_3 WHERE iso_639_3 = $4), $5) 
       RETURNING id, app, site_text_key, description, language_id, language_table;
       `,
       [
@@ -42,6 +43,22 @@ export class SiteTextRepository {
     return res.rows[0];
   }
 
+  async update(input: UpdateSiteTextInput) {
+    const res = await this.pg.pool.query(
+      `
+      UPDATE admin.site_text_keys SET description = $1, 
+      site_text_key = $2 WHERE id = $3 RETURNING id;
+      `,
+      [input.description, input.site_text_key, input.site_text_id],
+    );
+
+    if (!res.rows[0]) {
+      throw new Error('Could not find site text');
+    }
+
+    return this.read(input.site_text_id);
+  }
+
   async list() {
     const res = await this.pg.pool.query(
       `
@@ -53,13 +70,18 @@ export class SiteTextRepository {
     return res.rows;
   }
 
-  async listByAppId(appId: number) {
+  async listByAppId(appId: number, isoCode?: string) {
     const res = await this.pg.pool.query(
       `
-      SELECT id, app, site_text_key, description, language_id, language_table
-      FROM admin.site_text_keys WHERE app = $1;
+      SELECT st.id, st.app, st.site_text_key, st.description, st.language_id, 
+      st.language_table, COUNT(stt.site_text) as translations
+      FROM admin.site_text_keys as st
+      LEFT JOIN admin.site_text_translations as stt ON st.id = stt.site_text
+      LEFT JOIN iso_639_3 as iso ON iso.id = st.language_id
+      WHERE st.app = $1 AND ($2::varchar(150) IS NULL OR iso.iso_639_3 = $2)
+      GROUP BY st.id;
       `,
-      [appId],
+      [appId, isoCode],
     );
 
     return res.rows;

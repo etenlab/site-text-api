@@ -56,6 +56,21 @@ export class LanguageProficiencyRepository {
     return res.rows;
   }
 
+  async listByUserid(userId: string) {
+    const res = await this.pg.pool.query(
+      `
+      SELECT ls.id, ls.user_id, ls.language_table, ls.language_id,
+              ls.skill_level, iso.ref_name 
+      FROM admin.language_skills as ls
+      JOIN iso_639_3 as iso ON ls.language_id = iso.id
+      WHERE ls.user_id = $1;
+      `,
+      [userId],
+    );
+
+    return res.rows;
+  }
+
   async delete(id: number) {
     return await this.pg.pool.query(
       `DELETE FROM admin.language_skills WHERE id = $1;`,

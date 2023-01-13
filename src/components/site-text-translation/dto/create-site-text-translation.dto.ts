@@ -6,6 +6,7 @@ export class SiteTextTranslationInput {
   @Field(() => String) user_id: string;
   @Field(() => Int) site_text: number;
   @Field(() => String) site_text_translation: string;
+  @Field(() => String) description_translation: string;
   @Field(() => String) language_table: string;
   @Field(() => String) language_id: string;
 }
