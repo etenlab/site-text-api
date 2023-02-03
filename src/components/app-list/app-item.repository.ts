@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PostgresService } from 'src/core/postgres.service';
+import { PostgresService } from '../../core/postgres.service';
 
 @Injectable()
 export class AppItemRepository {

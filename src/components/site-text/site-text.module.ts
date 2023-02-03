@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PostgresService } from 'src/core/postgres.service';
+import { PostgresService } from '../../core/postgres.service';
 import { SiteTextRepository } from './site-text.repository';
 import { SiteTextService } from './site-text.service';
 import { SiteTextResolver } from './site-text.resolver';

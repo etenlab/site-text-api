@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PostgresService } from 'src/core/postgres.service';
+import { PostgresService } from '../../core/postgres.service';
 import { LanguageProficiencyInput } from './dto/create-language-proficiency.dto';
 
 @Injectable()
